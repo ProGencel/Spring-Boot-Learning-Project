@@ -1,0 +1,42 @@
+{
+  "info": {
+    "_postman_id": "2dba0e6b-a37b-49b3-8987-047f113e151b",
+    "name": "Uludağ Bil Müh",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "1939021",
+    "_collection_link": "https://go.postman.co/collection/1939021-2dba0e6b-a37b-49b3-8987-047f113e151b?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "Register",
+      "request": {
+        "auth": {
+          "type": "noauth"
+        },
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\n    \"name\": \"Ali\",\n    \"surname\": \"Bilmem\",\n    \"email\": \"ali@mail.com\",\n    \"phone\": \"5436667788\",\n    \"enabled\": true,\n    \"password\": \"12345\"\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:8090/register",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "8090",
+          "path": [
+            "register"
+          ]
+        }
+      },
+      "response": []
+    }
+  ]
+}
