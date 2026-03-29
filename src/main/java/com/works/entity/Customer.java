@@ -1,5 +1,7 @@
 package com.works.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.Data;
 
@@ -26,6 +28,7 @@ public class Customer {
     private boolean enabled;
 
     @Column(length = 1000)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
 }

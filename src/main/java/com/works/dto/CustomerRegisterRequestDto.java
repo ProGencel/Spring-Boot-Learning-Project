@@ -1,5 +1,7 @@
 package com.works.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
@@ -33,5 +35,6 @@ public class CustomerRegisterRequestDto implements Serializable {
     @NotNull
     @Size(min = 6, max = 15)
     @NotEmpty
+   // @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     String password;
 }
