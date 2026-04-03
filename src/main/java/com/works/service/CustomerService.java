@@ -1,6 +1,8 @@
 package com.works.service;
 
+import com.works.dto.CustomerLoginRequestDto;
 import com.works.dto.CustomerRegisterRequestDto;
+import com.works.dto.CustomerResponseDto;
 import com.works.entity.Customer;
 import com.works.repository.CustomerRepository;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -31,6 +34,22 @@ public class CustomerService {
         customer.setPassword(hashPassword);
         customerRepository.save(customer);
         return ResponseEntity.ok().body(customer);
+    }
+
+    public ResponseEntity login(CustomerLoginRequestDto customerLoginRequestDto){
+        //Optional ya 1 ya 0 tanedir. List ise 0,1,2,..,99,... tane olabilir.
+        Optional<Customer> optionalCustomer = customerRepository.findByEnabledTrueAndEmailIgnoreCaseOrEnabledTrueAndPhoneIgnoreCase(customerLoginRequestDto.getUsername(), customerLoginRequestDto.getUsername());
+        if (optionalCustomer.isPresent()){
+            Customer customer = optionalCustomer.get();
+            boolean isMatch = BCrypt.checkpw(customerLoginRequestDto.getPassword(), customer.getPassword());
+            if(isMatch)
+            {
+                CustomerResponseDto customerResponseDto = modelMapper.map(customer, CustomerResponseDto.class);
+                return ResponseEntity.ok().body(customerResponseDto);
+            }
+        }
+        Map<String, Object> hm = Map.of("success", false, "message", "Invalid username or password.");
+        return ResponseEntity.badRequest().body(hm);
     }
 
 
