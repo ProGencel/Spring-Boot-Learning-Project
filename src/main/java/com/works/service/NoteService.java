@@ -2,11 +2,16 @@ package com.works.service;
 
 import com.works.configs.GlobalException;
 import com.works.dto.NoteSaveRequestDto;
+import com.works.dto.NoteUpdateRequestDto;
 import com.works.entity.Note;
 import com.works.repository.NoteRepository;
 import com.works.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.ModelMapper;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
@@ -77,6 +82,38 @@ public class NoteService {
             
             return errorObject;
         }
+    }
+
+    public ResponseEntity update(NoteUpdateRequestDto noteUpdateRequestDto) {
+        Optional<Note> noteOptional = noteRepository.findById(noteUpdateRequestDto.getId());
+
+        if(noteOptional.isPresent()) {
+            Note note = modelMapper.map(noteUpdateRequestDto, Note.class);
+            noteRepository.save(note);
+
+            Map<String, Object> bm = new HashMap<>();
+            bm.put("success", true);
+            bm.put("message", "Note updated successfully");
+            return ResponseEntity.ok().body(bm);
+
+        } else {
+            Map<String, Object> error = new HashMap<>();
+            error.put("success", false);
+            error.put("message", "Note id cannot found: " + noteUpdateRequestDto.getId());
+            return ResponseEntity.badRequest().body(error);
+        }
+    }
+
+    public Page<Note> noteList(int page) {
+        Pageable pageable = PageRequest.of(page, 10);
+        return noteRepository.findAll(pageable);
+    }
+
+    public Page<Note> search(String q, int page, String noteDay)
+    {
+        Sort sort = Sort.by(noteDay.equals("desc") ? Sort.Direction.DESC : Sort.Direction.ASC, "noteDay");
+        Pageable pageable = PageRequest.of(page, 10,sort);
+        return noteRepository.findByTitleContainsOrDetailContains(q,q,pageable);
     }
 
 }

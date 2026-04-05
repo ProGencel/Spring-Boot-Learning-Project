@@ -60,7 +60,7 @@ public class ProductService {
 
     public ResponseEntity update(ProductUpdateRequestDto productUpdateRequestDto)
     {
-        java.util.Optional<Product> productOptional = productRepository.findById(productUpdateRequestDto.getId());
+        Optional<Product> productOptional = productRepository.findById(productUpdateRequestDto.getId());
         if(productOptional.isPresent())
         {
             Product product = modelMapper.map(productUpdateRequestDto, Product.class);
