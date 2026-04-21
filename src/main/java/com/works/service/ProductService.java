@@ -7,6 +7,8 @@ import com.works.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.modelmapper.ModelMapper;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -27,12 +29,14 @@ public class ProductService {
     final ProductRepository productRepository;
     final ModelMapper modelMapper;
 
+    @CacheEvict(cacheNames = "productListCache", allEntries = true)
     public Product save(ProductSaveRequestDto productSaveRequestDto)
     {
         Product product = modelMapper.map(productSaveRequestDto, Product.class);
         return productRepository.save(product);
     }
 
+    @CacheEvict(cacheNames = "productListCache", allEntries = true)
     public List<Product> saveAll(List<ProductSaveRequestDto> productSaveRequestDtoList)
     {
         List<Product> productList = productSaveRequestDtoList.stream()
@@ -42,6 +46,7 @@ public class ProductService {
         return productRepository.saveAll(productList);
     }
 
+    @CacheEvict(cacheNames = "productListCache", allEntries = true)
     public ResponseEntity deleteOne(long id)
     {
         Optional<Product> product = productRepository.findById(id);
@@ -58,6 +63,7 @@ public class ProductService {
         }
     }
 
+    @CacheEvict(cacheNames = "productListCache", allEntries = true)
     public ResponseEntity update(ProductUpdateRequestDto productUpdateRequestDto)
     {
         Optional<Product> productOptional = productRepository.findById(productUpdateRequestDto.getId());
@@ -76,6 +82,7 @@ public class ProductService {
 
     }
 
+    @Cacheable(value = "productListCache", key = "#page")
     public Page<Product> productList(int page)
     {     //ofSize means how much product we want on one page
         Pageable pageable = Pageable.ofSize(10).withPage(page);
