@@ -25,7 +25,7 @@ import java.util.Optional;
 public class ProductService {
 
     final ProductRepository productRepository;
-    ModelMapper modelMapper = new ModelMapper();
+    final ModelMapper modelMapper;
 
     public Product save(ProductSaveRequestDto productSaveRequestDto)
     {

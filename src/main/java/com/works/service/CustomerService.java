@@ -22,7 +22,7 @@ public class CustomerService {
 
     final CustomerRepository customerRepository;
     final HttpServletRequest request;
-    ModelMapper modelMapper = new ModelMapper();
+    final ModelMapper modelMapper;
 
     public ResponseEntity register(CustomerRegisterRequestDto customerRegisterRequestDto){
         List<Customer> customerList = customerRepository.findByEmailEqualsOrPhoneEqualsAllIgnoreCase(customerRegisterRequestDto.getEmail(), customerRegisterRequestDto.getPhone());
@@ -40,6 +40,7 @@ public class CustomerService {
 
     public ResponseEntity login(CustomerLoginRequestDto customerLoginRequestDto){
         //Optional ya 1 ya 0 tanedir. List ise 0,1,2,..,99,... tane olabilir.
+        System.out.println("CustomerService - " +  modelMapper.hashCode());
         Optional<Customer> optionalCustomer = customerRepository.findByEnabledTrueAndEmailIgnoreCaseOrEnabledTrueAndPhoneIgnoreCase(customerLoginRequestDto.getUsername(), customerLoginRequestDto.getUsername());
         if (optionalCustomer.isPresent()){
             Customer customer = optionalCustomer.get();
