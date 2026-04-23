@@ -77,6 +77,11 @@ public class SessionFilter implements Filter {
 
         // 🔐 AUTH KONTROL
         if (isAuth) {
+            if(urlPath.endsWith("dashboard"))
+            {
+                response.sendRedirect("customer/login");
+                return;
+            }
             if (customer == null) {
 
                 logger.warn("Unauthorized access -> IP: {}, URL: {}", ipAddress, urlPath);
@@ -96,7 +101,7 @@ public class SessionFilter implements Filter {
             }
         }
 
-        filterChain.doFilter(request, response);
+        filterChain.doFilter(request, response);    //request gitmeye uygunsa responsea gonderiyor
 
     }
 

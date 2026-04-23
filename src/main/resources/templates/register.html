@@ -29,6 +29,9 @@
                     <div class="text-danger mt-1"
                          th:if="${#fields.hasErrors('name')}"
                          th:errors="*{name}">
+
+                        <!-- field sayesinde yanlis giris oldugunda herseyi resetlemiyor -->
+
                     </div>
                 </div>
 
