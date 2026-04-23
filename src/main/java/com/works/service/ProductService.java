@@ -86,7 +86,8 @@ public class ProductService {
     public Page<Product> productList(int page)
     {     //ofSize means how much product we want on one page
         Pageable pageable = Pageable.ofSize(10).withPage(page);
-        return productRepository.findAll(pageable);
+        Page<Product> productPage = productRepository.findAll(pageable);
+        return productPage;
     }
 
     public Page<Product> search(String q, int page, String price)
