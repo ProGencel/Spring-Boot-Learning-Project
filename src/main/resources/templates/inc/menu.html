@@ -1,10 +1,22 @@
 <div class="list-group">
-    <a href="#" class="list-group-item list-group-item-action active" aria-current="true">
+    <a class="list-group-item list-group-item-action active" aria-current="true">
         App Menu
     </a>
-    <a href="/mvc/dashboard" class="list-group-item list-group-item-action">Dashboard</a>
-    <a href="/mvc/product" class="list-group-item list-group-item-action">Product</a>
-    <a href="#" class="list-group-item list-group-item-action">Note</a>
-    <div class="px-3 mt-3 mb-1 text-muted small">Account</div>
-    <a href="#" class="list-group-item list-group-item-action">Logout</a>
+
+    <a href="/mvc/dashboard" class="list-group-item list-group-item-action"><i class="bi bi-speedometer"></i> Dashboard</a>
+    <a href="/mvc/product" class="list-group-item list-group-item-action"><i class="bi bi-cart"></i> Product</a>
+    <a href="/mvc/note" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark"></i> Note</a>
+    <th:block th:if="${session.customer != null}">
+        <div class="px-3 mt-3 mb-1 text-muted small" th:text="${session.customer.name + ' ' + session.customer.surname}">Account</div>
+    </th:block>
+
+    <a onclick="return logoutAnswer()" href="/mvc/customer/logout" class="list-group-item list-group-item-action"><i class="bi bi-x-square"></i> Logout</a>
+
 </div>
+
+<script>
+    function logoutAnswer() {
+        const answer = confirm("Are you sure you want to logout?");
+        return answer;
+    }
+</script>

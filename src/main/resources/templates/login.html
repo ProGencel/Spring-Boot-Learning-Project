@@ -14,6 +14,11 @@
             <h3 class="text-center mb-4">Login</h3>
             <p class="text-center mb-4">Please enter your credentials to login.</p>
 
+            <div th:if="${param.authFail}" class="alert alert-danger alert-dismissible fade show" role="alert"> <!-- Tarayıcının adres çubuğuna bak. Eğer orada ?authFail diye bir kelime (parametre) varsa bu HTML kutusunu ekranda göster. Yoksa (adam siteye normal yollardan, kendi isteğiyle girdiyse) bu kutuyu gizle. -->
+                <strong>Error!</strong> Please Login!
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+
             <form th:action="@{/mvc/customer/login}"
                   th:object="${customerLoginRequestDto}"
                   method="post">

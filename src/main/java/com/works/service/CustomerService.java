@@ -56,5 +56,11 @@ public class CustomerService {
         return ResponseEntity.badRequest().body(hm);
     }
 
+    public ResponseEntity logout()
+    {
+        request.getSession().invalidate();
+        return ResponseEntity.ok().body("Logout successfully");
+    }
+
 
 }

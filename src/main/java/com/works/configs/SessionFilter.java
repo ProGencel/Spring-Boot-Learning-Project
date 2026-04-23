@@ -1,5 +1,6 @@
 package com.works.configs;
 
+import com.works.dto.CustomerResponseDto;
 import jakarta.servlet.*;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -77,14 +78,15 @@ public class SessionFilter implements Filter {
 
         // 🔐 AUTH KONTROL
         if (isAuth) {
-            if(urlPath.endsWith("dashboard"))
-            {
-                response.sendRedirect("customer/login");
-                return;
-            }
             if (customer == null) {
 
                 logger.warn("Unauthorized access -> IP: {}, URL: {}", ipAddress, urlPath);
+
+                if(urlPath.startsWith("/mvc"))
+                {
+                    response.sendRedirect("/mvc/customer/login?authFail");
+                    return;
+                }
 
                 response.setContentType("application/json");
                 response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
@@ -98,6 +100,14 @@ public class SessionFilter implements Filter {
 
                 response.getWriter().write(jsonResponse);
                 return;
+            }
+            else
+            {
+                if(urlPath.startsWith("/mvc"))
+                {
+                    CustomerResponseDto customerResponseDto = (CustomerResponseDto) customer;
+                    request.setAttribute("customer", customerResponseDto);
+                }
             }
         }
 
