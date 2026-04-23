@@ -2,10 +2,8 @@ package com.works.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotEmpty;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
+import jakarta.validation.constraints.*;
+import lombok.Data;
 import lombok.Value;
 
 import java.io.Serializable;
@@ -13,8 +11,8 @@ import java.io.Serializable;
 /**
  * DTO for {@link com.works.entity.Customer}
  */
-@Value
-public class CustomerRegisterRequestDto implements Serializable {
+@Data
+public class CustomerRegisterRequestDto{
     @NotNull
     @Size(min = 2, max = 100)
     @NotEmpty
@@ -30,6 +28,7 @@ public class CustomerRegisterRequestDto implements Serializable {
     @NotNull
     @Size(min = 9, max = 15)
     @NotEmpty
+    @Pattern(regexp = "^(?:\\+90\\d{10}|0\\s?\\d{3}\\s?\\d{3}\\s?\\d{2}\\s?\\d{2}|\\d{10})(?:\\s\\+\\d+)?$", message = "Phone number format fail")
     String phone;
     boolean enabled;
     @NotNull
