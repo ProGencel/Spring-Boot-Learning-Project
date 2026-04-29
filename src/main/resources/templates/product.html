@@ -18,6 +18,7 @@
         <div class="d-flex justify-content-between">
             <span class="text-muted" th:text="${'Total : ' + productPage.totalElements}"></span>
             <ul class="pagination justify-content-end pagination-sm">
+                <!-- For dongusu benzeri bir yapiyla her page i sira sira geziyor, -->
                 <li th:each="page : ${#numbers.sequence( 1, productPage.totalPages, 1)}" class="page-item" th:classappend="${page == productPage.number + 1} ? 'active'">
                     <a class="page-link" th:href="${'/mvc/product?page='+page}" th:text="${page}"></a>
                 </li>
@@ -40,14 +41,108 @@
             <td th:text="${product.title}"></td>
             <td th:text="${product.price}"></td>
             <td>
-                <a th:href="${'/mvc/product/delete/' + product.id}" class="btn btn-danger btn-sm"><i class="bi bi-trash"></i></a>
+                <a th:href="${'/mvc/product/delete/' + product.id}" class="btn btn-danger btn-sm delete-btn"
+                th:data-id = "${product.id}"><i class="bi bi-trash"></i></a>
                 <a th:href="${'/mvc/product/edit/' + product.id}" class="btn btn-primary btn-sm"><i class="bi bi-pencil-square"></i></a>
-                <a th:href="${'/mvc/product/detail/' + product.id}" class="btn btn-info btn-sm"><i class="bi bi-file-earmark"></i></a>
+                <a type="button" data-bs-toggle="modal" th:attr="data-bs-target='#modal_' + ${product.id}" class="btn btn-info btn-sm"><i class="bi bi-file-earmark"></i></a>
+
+                <div class="modal fade" th:id="'modal_' + ${product.id}" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h1 class="modal-title fs-5" id="exampleModalLabel" th:text="${product.title}"></h1>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+
+                                <div class="container-fluid">
+
+                                    <!-- Başlık -->
+                                    <div class="text-center mb-3">
+                                        <h4 class="fw-bold text-primary" th:text="${product.title}"></h4>
+                                    </div>
+
+                                    <!-- ID ve Price -->
+                                    <div class="row mb-3">
+                                        <div class="col-6">
+                                            <div class="card shadow-sm border-0">
+                                                <div class="card-body text-center">
+                                                    <i class="bi bi-hash fs-4 text-secondary"></i>
+                                                    <h6 class="mt-2 text-muted">Product ID</h6>
+                                                    <strong th:text="${product.id}"></strong>
+                                                </div>
+                                            </div>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <div class="card shadow-sm border-0">
+                                                <div class="card-body text-center">
+                                                    <i class="bi bi-currency-dollar fs-4 text-success"></i>
+                                                    <h6 class="mt-2 text-muted">Price</h6>
+                                                    <strong th:text="${product.price} + ' ₺'"></strong>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Description -->
+                                    <div class="card shadow-sm border-0">
+                                        <div class="card-body">
+                                            <h6 class="text-muted mb-2">
+                                                <i class="bi bi-card-text"></i> Description
+                                            </h6>
+                                            <p class="mb-0" th:text="${product.description}"></p>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
             </td>
         </tr>
         </tbody>
     </table>
 </th:block>
+
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+            <div class="modal-header">
+                <h5 class="modal-title">Silme İşlemi</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                Bu ürünü silmek istediğinize emin misiniz?
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Vazgeç</button>
+                <a id="confirmDeleteBtn" class="btn btn-danger">Evet, Sil</a>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        $('.delete-btn').on('click', function (e) {
+            e.preventDefault();
+            $('#confirmDeleteBtn')
+                .attr('href', '/mvc/product/delete/' + $(this).data('id'));
+            new bootstrap.Modal('#deleteModal').show();
+        });
+    });
+</script>
 
 </body>
 </html>
