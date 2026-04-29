@@ -107,6 +107,7 @@ public class SessionFilter implements Filter {
                 {
                     CustomerResponseDto customerResponseDto = (CustomerResponseDto) customer;
                     request.setAttribute("customer", customerResponseDto);
+                    request.setAttribute("pageUrl", urlPath);
                 }
             }
         }

@@ -1,11 +1,22 @@
 <div class="list-group">
-    <a class="list-group-item list-group-item-action active" aria-current="true">
-        App Menu
+    <a class="list-group-item list-group-item-action" aria-current="true">
+        <strong>Menu</strong>
     </a>
 
-    <a href="/mvc/dashboard" class="list-group-item list-group-item-action"><i class="bi bi-speedometer"></i> Dashboard</a>
-    <a href="/mvc/product" class="list-group-item list-group-item-action"><i class="bi bi-cart"></i> Product</a>
-    <a href="/mvc/note" class="list-group-item list-group-item-action"><i class="bi bi-file-earmark"></i> Note</a>
+    <!-- classappend kullaninca tum sinifi silmek yerine sonuna ekliyor tum sinifin yerine koymak isteseydik direkte yapabilirdik -->
+    <a href="/mvc/dashboard" class="list-group-item list-group-item-action" th:classappend = "${pageUrl.startsWith('/mvc/dashboard')} ? ' active'">
+        Dashboard
+    </a>
+
+    <a href="/mvc/product" class="list-group-item list-group-item-action" th:classappend = "${pageUrl.startsWith('/mvc/product')} ? ' active'">
+        Product
+    </a>
+
+    <a href="/mvc/note" class="list-group-item list-group-item-action" th:classappend = "${pageUrl.startsWith('/mvc/note')} ? ' active'">
+        Note
+    </a>
+    
+
     <th:block th:if="${session.customer != null}">
         <div class="px-3 mt-3 mb-1 text-muted small" th:text="${session.customer.name + ' ' + session.customer.surname}">Account</div>
     </th:block>

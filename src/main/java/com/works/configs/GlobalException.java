@@ -12,7 +12,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@RestControllerAdvice
+@RestControllerAdvice(basePackages = "com.works.controller ")
 public class GlobalException {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
