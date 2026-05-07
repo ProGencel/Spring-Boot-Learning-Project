@@ -1,45 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
-    th:replace="layout :: layout(~{::title}, ~{::body})">
+      th:replace="layout :: layout(~{::title}, ~{::body})">
 <head>
     <title>Note Page</title>
 </head>
 <body>
-    <th:block th:if="${notePage.content.size() > 0}">
+<div class="mb-3">
+    <a href="/mvc/note/create" class="btn btn-success"><i class="bi bi-plus-circle"></i> Create Note</a>
+</div>
 
-        <nav aria-label="...">
-            <span class = "text-muted" th:text="${'Total : ' + notePage.totalElements}"></span>
-            <ul class="pagination">
-                <li th:each="page : ${#numbers.sequence(1,notePage.totalPages,1)}" class="page-item" th:classappend="${page == notePage.number + 1} ? 'active'">
-                    <a class="page-link" th:href="${'/mvc/note?page='+page}" th:text="${page}"></a>
-                </li>
-            </ul>
-        </nav>
+<th:block th:if="${notePage.content.size() > 0}">
 
-        <table class="table table-hover">
-            <thead>
-            <tr>
-                <th scope="col">#</th>
-                <th scope="col">Title</th>
-                <th scope="col">Note</th>
-                <th scope="col">Day</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="note : ${notePage.content}">
-                <th scope="row" th:text="${note.id}"></th>
-                <td th:text="${note.title}"></td>
-                <td th:text="${note.detail}"></td>
-                <td th:text="${note.noteDay}"></td>
-                <td>
-                    <a th:href="${'/mvc/note/delete/' + note.id}" class="btn btn-danger btn-sm" ><i class="bi bi-backspace"></i></a>
-                    <a href=""></a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
+    <nav aria-label="...">
+        <span class = "text-muted" th:text="${'Total : ' + notePage.totalElements}"></span>
+        <ul class="pagination">
+            <li th:each="page : ${#numbers.sequence(1,notePage.totalPages,1)}" class="page-item" th:classappend="${page == notePage.number + 1} ? 'active'">
+                <a class="page-link" th:href="${'/mvc/note?page='+page}" th:text="${page}"></a>
+            </li>
+        </ul>
+    </nav>
 
-    </th:block>
+    <table class="table table-hover">
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Title</th>
+            <th scope="col">Note</th>
+            <th scope="col">Day</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="note : ${notePage.content}">
+            <th scope="row" th:text="${note.id}"></th>
+            <td th:text="${note.title}"></td>
+            <td th:text="${note.detail}"></td>
+            <td th:text="${note.noteDay}"></td>
+            <td>
+                <a th:href="${'/mvc/note/delete/' + note.id}" class="btn btn-danger btn-sm" ><i class="bi bi-backspace"></i></a>
+                <a href=""></a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</th:block>
 
 
 </body>

@@ -1,15 +1,14 @@
 package com.works.mvc;
 
+import com.works.dto.NoteSaveRequestDto;
 import com.works.entity.Note;
 import com.works.service.NoteService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 
 @Controller
 @RequestMapping("mvc")
@@ -33,4 +32,15 @@ public class NoteController {
         return "redirect:/mvc/note";
     }
 
+    @GetMapping("note/create")
+    public String create()
+    {
+        return "noteCreate";
+    }
+
+    @PostMapping("note/save")
+    public String save(@Valid NoteSaveRequestDto note) {
+        noteService.save(note);
+        return "redirect:/mvc/note";
+    }
 }

@@ -18,5 +18,4 @@ public class Note {
 
     @Column(length = Integer.MAX_VALUE)
     int noteDay;
-
 }
